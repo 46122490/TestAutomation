@@ -54,10 +54,48 @@ try:
     wait.until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT,"Distrito Federal"))).click()
     screenshot("05_FiltroPais")
     
-    # Paso 5: Filtrar por ubicación 
+    # Paso 5: Orden de productos
     wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/main/div/div[2]/section/div[2]/div[2]/div/div/div[2]/div"))).click()
     time.sleep(2)
     wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'Mayor precio')]"))).click()
     screenshot("06_orden")
+    
+    #  # Paso 7: Obtener los primeros 5 productos
+    # productos = wait.until(EC.presence_of_all_elements_located(
+    #     (By.XPATH, "/html/body/main/div/div[2]/section") 
+    # ))[:5]   
+    
+    # print("Primeros 5 productos (nombre y precio):")
+    # for i, producto in enumerate(productos, start=1):
+    #     try:
+    #         nombre = producto.find_element(By.XPATH, ".//h2").text
+    #         precio = producto.find_element(By.XPATH, ".//span[@class='andes-money-amount__fraction']").text
+    #         print(f"{i}. {nombre} - ${precio}")
+    #     except Exception as e:
+    #         print(f"{i}. No se pudo obtener la información del producto.")
+
+    # screenshot("07_resultados")
+    
+    def generar_informe():
+        with open("informe.html", "w", encoding="utf-8") as f:
+            f.write("<html><head><title>Informe de Automatización</title></head><body>")
+            f.write("<h1>Informe de Automatización: Búsqueda en Mercado Libre</h1>")
+            
+            pasos = [
+                "01_inicio",
+                "02_pais",
+                "03_busqueda",
+                "04_nuevo",
+                "05_cdmx",
+                "06_orden",
+                "07_resultados"
+            ]
+
+            for paso in pasos:
+                f.write(f"<h2>Paso: {paso}</h2>")
+                f.write(f"<img src='{repositorio_evidencias}/{paso}.png' width='800'><hr>")
+
+            f.write("</body></html>")
 finally:
     driver.quit()
+    generar_informe()
