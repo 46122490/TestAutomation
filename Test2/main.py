@@ -1,0 +1,59 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+import os
+
+# Configuración del navegador
+options = webdriver.ChromeOptions()
+options.add_argument("--start-maximized")
+driver = webdriver.Chrome(options=options)
+
+wait = WebDriverWait(driver, 10)
+
+#Creacion Carpeta Evidencias
+repositorio_evidencias = "01_evidencias"
+if not os.path.exists(repositorio_evidencias):
+    os.makedirs(repositorio_evidencias)
+    
+def screenshot(paso):
+    ruta_archivos= os.path.join(repositorio_evidencias,f"{paso}.png")
+    driver.save_screenshot(ruta_archivos)
+
+try:
+    # Paso 1: Abrir la web
+    driver.get("https://www.mercadolibre.com")
+    screenshot("01_inicio")
+
+    # Paso 2: Seleccionar país
+    wait.until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, "México"))).click()
+    screenshot("02_pais")
+    
+    #Aceptacion de cookies
+    try:
+        aceptar_cookies = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Aceptar') or contains(., 'Entendido')]"))
+        )
+        aceptar_cookies.click()
+        print("Banner de cookies cerrado.")
+    except:
+        print("No apareció el banner de cookies.")
+        
+    # Paso 3: Buscar "playstation 5"
+    search_box = wait.until(EC.presence_of_element_located((By.NAME, "as_word")))
+    search_box.send_keys("playstation 5")
+    search_box.submit()
+    screenshot("03_busqueda")
+    
+    # Paso 4: Filtrar por condición "Nuevo"
+    wait.until(EC.element_to_be_clickable((By.XPATH,"/html/body/main/div/div[2]/aside/section[2]/div[5]/ul/li[1]/a/span[1]"))).click()
+    screenshot("04_nuevo")
+    
+    # # Paso 5: Filtrar por ubicación 
+    wait.until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT,"Distrito Federal"))).click()
+    screenshot("05_FiltroPais")
+    
+
+finally:
+    driver.quit()
