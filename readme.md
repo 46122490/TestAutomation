@@ -11,7 +11,7 @@ Este proyecto automatiza la búsqueda de productos en el sitio web de [MercadoLi
 - Buscar el término "playstation 5"
 - Filtrar por:
   - Condición: Nuevos
-  - Ubicación: Ciudad de México
+  - Ubicación: Distrito Federal
 - Ordenar por Mayor precio
 - Extraer e imprimir en consola el nombre y precio de los primeros 5 productos
 - Guardar capturas de pantalla de cada paso

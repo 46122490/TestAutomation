@@ -50,10 +50,14 @@ try:
     wait.until(EC.element_to_be_clickable((By.XPATH,"/html/body/main/div/div[2]/aside/section[2]/div[5]/ul/li[1]/a/span[1]"))).click()
     screenshot("04_nuevo")
     
-    # # Paso 5: Filtrar por ubicación 
+    # Paso 5: Filtrar por ubicación 
     wait.until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT,"Distrito Federal"))).click()
     screenshot("05_FiltroPais")
     
-
+    # Paso 5: Filtrar por ubicación 
+    wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/main/div/div[2]/section/div[2]/div[2]/div/div/div[2]/div"))).click()
+    time.sleep(2)
+    wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'Mayor precio')]"))).click()
+    screenshot("06_orden")
 finally:
     driver.quit()
